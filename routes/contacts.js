@@ -6,6 +6,7 @@ const auth = require('./middleware/auth');
 
 const User = require('../models/User');
 const Contact = require('../models/Contact');
+const { request } = require('express');
 
 
 // @route    GET api/contacts
@@ -60,16 +61,72 @@ router.post('/', [ auth, [
 // @desc     Update contact
 // @access   Private
 
-router.put('/:id', (req, res) => {
-    res.send('Update contact');
+router.put('/:id', auth, async (req, res) => {
+    const { name, email, phone, type } = req.body
+
+    // Build a contact object based on input
+    const contactFields = {}
+    if (name) contactFields.name = name
+    if (email) contactFields.email = email
+    if (phone) contactFields.phone = phone
+    if (type) contactFields.type = type
+
+    try {
+        let contact = await Contact.findById(req.params.id)
+
+        if (!contact) return res.status(404).json({ msg: 'Contact not found' })
+
+        // Make sure user owns contact, so that each user can only edit their own
+        if (contact.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'Not Authorized' })
+        }
+        
+        // doing the update
+        // search the Contact model to find the contact matching the id that we search for, 
+        
+        contact = await Contact.findByIdAndUpdate(
+            // it takes in the contact id
+            req.params.id, 
+            // set the contact fields that we described above
+            { $set: contactFields }, 
+            // set another options object, if it doesn't exist with these params, then we will create a new contact with the inputted params
+            { new: true })
+
+        // then we will send along the contact
+        res.json(contact)
+
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
 });
 
 // @route    DELETE api/contacts/:id
 // @desc     Delete contact
 // @access   Private
 
-router.delete('/:id', (req, res) => {
-    res.send('Delete contact');
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        let contact = await Contact.findById(req.params.id)
+
+        if (!contact) return res.status(404).json({ msg: 'Contact not found' })
+
+        // Make sure user owns contact, so that each user can only edit their own
+        if (contact.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'Not Authorized' })
+        }
+        
+        // Deleting...
+        // search the Contact model to find the contact matching the id that we search for, then use the remove method to delete
+        await Contact.findByIdAndRemove(req.params.id)
+
+        // this will return the contact that we deleted
+        res.json(contact)
+
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
 });
 
 module.exports = router;
