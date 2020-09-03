@@ -1,0 +1,26 @@
+{
+  "editor.fontSize": 14,
+  "terminal.integrated.fontSize": 22,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "prettier.singleQuote": true,
+  "editor.formatOnSave": false,
+  "window.zoomLevel": 1,
+  "editor.quickSuggestions": null,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx",
+    "xml": {
+      "attr_quotes": "single"
+    }
+  },
+  "prettier.jsxSingleQuote": true,
+  "emmet.excludeLanguages": [
+    "markdown"
+  ],
+  "emmet.extensionsPath": "",
+  "editor.multiCursorModifier": "ctrlCmd",
+  "files.autoSave": "onFocusChange"
+}
