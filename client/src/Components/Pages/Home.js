@@ -1,12 +1,12 @@
 import React from 'react'
 import Contacts from '../contacts/Contacts'
-import contactContext from '../../context/contact/contactContext'
+import ContactForm from '../contacts/ContactForm'
 
 export const Home = () => {
     return (
         <div className='grid-2'>
             <div>
-                {/* {contact form} */}
+                <ContactForm />
             </div>
             <div>
                 <Contacts />
