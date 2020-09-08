@@ -8,7 +8,6 @@ const Register = (props) => {
   const alertContext = useContext(AlertContext)
 
   const { setAlert } = alertContext
-  // add clearErrors
   const { register, error, clearErrors, isAuthenticated } = authContext
 
   useEffect(() => {
@@ -20,6 +19,7 @@ const Register = (props) => {
     // for larger applications, we should be sending the errors back with ID's and checking for those ID's here
     if (error === 'User already exists') {
       setAlert(error, 'danger')
+      clearErrors()
     }
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history])
@@ -40,11 +40,11 @@ const Register = (props) => {
   const onSubmit = e => {
     // if you click submit and are missing a field, 
     if (name === '' || email === '' || password === '') {
-      setAlert('All fields are required')
+      setAlert('All fields are required', 'danger')
     } else if (password !== password2) {
-      setAlert('Passwords do not match')
+      setAlert('Passwords do not match', 'danger')
     } else if (password.length < 6 || password2.length < 6) {
-      setAlert('Passwords must be at least 6 characters long')
+      setAlert('Passwords must be at least 6 characters long', 'danger')
     } else {
       register({
         name,

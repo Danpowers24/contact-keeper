@@ -1,6 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import AuthContext from '../../context/auth/authContext'
+import AlertContext from '../../context/alert/alertContext'
 
-const Login = () => {
+const Login = (props) => {
+
+  const authContext = useContext(AuthContext)
+  const alertContext = useContext(AlertContext)
+
+  const { setAlert } = alertContext
+  const { login, error, clearErrors, isAuthenticated } = authContext
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // once the user is authenticated, then we want to redirect to the home page, by pushing '/' to the last page in browser's history
+      props.history.push('/')
+    }
+
+    // for larger applications, we should be sending the errors back with ID's and checking for those ID's here
+    if (error === 'Invalid Credentials') {
+      setAlert(error, 'danger')
+      clearErrors()
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history])
+
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -12,7 +35,14 @@ const Login = () => {
 
   const onSubmit = e => {
     e.preventDefault()
-    console.log('login submit button pushed')
+    if (email === '' || password === '') {
+      setAlert('Please fill in all fields', 'danger')
+    } else {
+      login({
+        email,
+        password
+      })
+    }
   }
 
   return (
@@ -26,12 +56,12 @@ const Login = () => {
         
         <div className='form-group'>
           <label htmlFor='email'>Email</label>
-          <input type='email' name='email' value={email} onChange={onChange} /> 
+          <input type='email' name='email' value={email} onChange={onChange} required/> 
         </div>
 
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
-          <input type='password' name='password' value={password} onChange={onChange} /> 
+          <input type='password' name='password' value={password} onChange={onChange} required/> 
         </div>
         
         <input type="submit" value="Register" className='btn btn-primary btn-block' />
