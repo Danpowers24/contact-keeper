@@ -49,7 +49,7 @@ const Login = (props) => {
     <div className='form-container'>
 
       <h1>
-        Account <span className="textprimary">Login</span>
+        Account <span className="text-primary">Login</span>
       </h1>
 
       <form onSubmit={onSubmit}>
@@ -64,7 +64,7 @@ const Login = (props) => {
           <input type='password' name='password' value={password} onChange={onChange} required/> 
         </div>
         
-        <input type="submit" value="Register" className='btn btn-primary btn-block' />
+        <input type="submit" value="Login" className='btn btn-primary btn-block' />
 
       </form>
     </div>
