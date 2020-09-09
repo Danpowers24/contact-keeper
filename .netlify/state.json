@@ -1,3 +1,4 @@
 {
-	"siteId": "113bcc4c-95b3-4e68-b5cd-82735c8dca06"
+	"siteId": "113bcc4c-95b3-4e68-b5cd-82735c8dca06",
+	"build": "npm run build"
 }
