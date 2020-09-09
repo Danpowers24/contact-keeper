@@ -7,12 +7,12 @@ export const ContactItem = ({ contact }) => {
 
   const { deleteContact, setCurrent, clearCurrent } = contactContext
 
-  const { id, name, email, phone, type } = contact
+  const { _id, name, email, phone, type } = contact
   
   // delete function
   const onDelete = () => {
     // we have access to the id because we destructured it above 
-    deleteContact(id)
+    deleteContact(_id)
     clearCurrent()
   }
 
