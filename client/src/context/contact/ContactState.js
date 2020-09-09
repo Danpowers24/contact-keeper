@@ -38,7 +38,7 @@ const [state, dispatch] = useReducer(contactReducer, initialState)
     } catch (err) {
       dispatch({ 
         type: CONTACT_ERROR, 
-        payload: err.response.msg 
+        payload: err.response.msg
       })
     }
   }
